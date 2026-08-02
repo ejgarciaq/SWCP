@@ -57,7 +57,7 @@
     {# ========================================================= #}
     {% if registros.items %}
     <form action="{{ url_for('registro_asistencia.procesar_aprobacion') }}" method="POST">
-    <div class="table-responsive"  >
+    <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
                 <tr class="text-center">
@@ -101,20 +101,23 @@
 
                     <td class="text-center">
                         <a href="{{ url_for('registro_asistencia.editar_asistencia', 
-                                         registro_id=registro.id_registro_asistencia,
-                                         page=registros.page,
-                                         fecha_inicio=fecha_inicio_filtro,
-                                         fecha_fin=fecha_fin_filtro,
-                                         empleado_id=empleado_id_filtro,
-                                         aprobacion=aprobacion_filtro) }}" 
+                                           registro_id=registro.id_registro_asistencia,
+                                           page=registros.page,
+                                           fecha_inicio=fecha_inicio_filtro,
+                                           fecha_fin=fecha_fin_filtro,
+                                           empleado_id=empleado_id_filtro,
+                                           aprobacion=aprobacion_filtro) }}" 
                            class="btn btn-sm btn-warning fw-bold">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                        <form action="{{ url_for('registro_asistencia.eliminar_asistencia', registro_id=registro.id_registro_asistencia) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-sm btn-danger fw-bold" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">
-                                <i class="fas fa-trash-alt"></i> Eliminar
-                            </button>
-                        </form>
+
+                        <!-- Botón de eliminación vinculado por ID al formulario externo -->
+                        <button type="submit" 
+                                form="form-eliminar-{{ registro.id_registro_asistencia }}" 
+                                class="btn btn-sm btn-danger fw-bold" 
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -206,6 +209,15 @@
         </button>
     </div>
     </form>
+
+    {# Formularios independientes de eliminación fuera del form principal #}
+    {% for registro in registros.items %}
+        <form id="form-eliminar-{{ registro.id_registro_asistencia }}" 
+              action="{{ url_for('registro_asistencia.eliminar_asistencia', registro_id=registro.id_registro_asistencia) }}" 
+              method="POST" 
+              style="display:none;"></form>
+    {% endfor %}
+
     {% else %}
     <div class="alert alert-info text-center" role="alert">
         No hay registros de asistencia para mostrar.
