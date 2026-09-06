@@ -1,5 +1,8 @@
 import os
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+
+load_dotenv()
 
 db = SQLAlchemy()
 
@@ -15,13 +18,10 @@ def get_database_uri():
         return (
             os.getenv('TEST_DATABASE_URL')
             or os.getenv('TEST_SQLALCHEMY_DATABASE_URI')
-            or 'mysql+pymysql://root:2WpIC2frx7AcNZJ.@localhost/rhcontrol'
         )
-
     return (
         os.getenv('DATABASE_URL')
         or os.getenv('SQLALCHEMY_DATABASE_URI')
-        or 'mysql+pymysql://root:cayeYxFTpqyBizlNLpICucaSvBTTGriB@tokaido.proxy.rlwy.net:54879/rhcontrol'
     )
 
 class Config:
@@ -35,7 +35,7 @@ class Config:
     # SECRET_KEY es una clave criptográfica que se utiliza para firmar sesiones,
     # cookies y otros datos sensibles. Es crucial para la seguridad de la aplicación
     # y debe ser un valor único y difícil de adivinar en un entorno de producción.
-    SECRET_KEY = os.getenv('SECRET_KEY', 'f9ddc90157c588ce310b85c62fe82b7e76c94a87')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
 
     # SQLALCHEMY_DATABASE_URI define la cadena de conexión a la base de datos.
     # El formato es: 'dialect+driver://usuario:contraseña@host/nombre_db'
@@ -57,11 +57,11 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', 'True').lower() in ('1', 'true', 'yes', 'on')
 
     # Configuración del servidor de correo
-    MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.googlemail.com')
-    MAIL_PORT = int(os.getenv('MAIL_PORT', '587'))
+    MAIL_SERVER = os.getenv('MAIL_SERVER')
+    MAIL_PORT = int(os.getenv('MAIL_PORT'))
     MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'True').lower() in ('1', 'true', 'yes', 'on')
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', 'fundacionbanderablanca9@gmail.com')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', 'vcox lmdc burq jlxm')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_pre_ping': True,
     }
