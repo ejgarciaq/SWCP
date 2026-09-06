@@ -5,5 +5,8 @@
     },
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "python.analysis.extraPaths": [
+        "./payroll_"
+    ]
 }

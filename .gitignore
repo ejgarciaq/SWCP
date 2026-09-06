@@ -55,3 +55,4 @@ payroll_app/static/uploads/*
 # OS files
 .DS_Store
 Thumbs.db
+test_db.py
